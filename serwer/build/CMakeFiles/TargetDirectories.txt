@@ -1,0 +1,3 @@
+/home/shidokorami/studia/sem5/sk2/projekt/komunikator/serwer/build/CMakeFiles/Serwer.dir
+/home/shidokorami/studia/sem5/sk2/projekt/komunikator/serwer/build/CMakeFiles/edit_cache.dir
+/home/shidokorami/studia/sem5/sk2/projekt/komunikator/serwer/build/CMakeFiles/rebuild_cache.dir

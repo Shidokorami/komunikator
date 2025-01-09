@@ -1,0 +1,3 @@
+/home/shidokorami/studia/sem5/sk2/projekt/komunikator/klient/build/CMakeFiles/Klient.dir
+/home/shidokorami/studia/sem5/sk2/projekt/komunikator/klient/build/CMakeFiles/edit_cache.dir
+/home/shidokorami/studia/sem5/sk2/projekt/komunikator/klient/build/CMakeFiles/rebuild_cache.dir
