@@ -1,5 +1,6 @@
 #include "../../include/LoginFrame.h"
 #include "../../include/Packers.h"
+#include "MainFrame.h"
 
 ClientLogic::ClientLogic(const std::string& serverAddress, int port)
     : serverAddress(serverAddress), port(port), SocketFD(-1) {}
@@ -41,5 +42,20 @@ void ClientLogic::Login(std::string username, std::string password){
 
 
 
+}
+
+bool ClientLogic::Register(std::string username, std::string password){
+    std::string credentials = packRegisterCredentials(username, password);
+
+    send(SocketFD, credentials.c_str(), credentials.size(), 0);
+    char buff[256];
+    
+    ssize_t bytesRecv = recv(SocketFD, buff, sizeof buff, 0);
+    buff[bytesRecv] = '\0';
+
+    std::string mess(buff);
+    std::cout << mess << std::endl;
+
+    return true;
 }
 

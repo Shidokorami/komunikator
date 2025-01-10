@@ -131,6 +131,7 @@ void Serwer::handleNewConnection(int serverFD, std::vector<pollfd>& poll_set){
 Serwer::RequestHandler::RequestHandler(Serwer& server)
 : server_(server){
     handlers["login"] = [this](json data, int clientFD) { this->handleLogin(data, clientFD);};
+    handlers["register"] = [this](json data, int clientFD) { this->handleRegister(data, clientFD);};
 }
 
 void Serwer::RequestHandler::handle(std::string requestString, int clientFD){
@@ -185,3 +186,56 @@ void Serwer::RequestHandler::handleLogin(json data, int clientFD){
     send(clientFD, mess.c_str(), mess.size(), 0);
 
 }
+
+void Serwer::RequestHandler::handleRegister(json data, int clientFD){
+    std::string username = data["username"];
+    std::string password = data["password"];
+    
+    
+    std::cout << "US: " << username << ", PASS: " << password << std::endl;
+
+    sqlite3_stmt* stmt;
+    std::string sql = "SELECT EXISTS(SELECT 1 FROM USERS WHERE USERNAME = ?)";
+    server_.rc = sqlite3_prepare_v2(server_.database, sql.c_str(), -1, &stmt, nullptr);
+
+    if (server_.rc!= SQLITE_OK) {
+    std::cerr << "Błąd przygotowania zapytania: " << sqlite3_errmsg(server_.database) << std::endl;
+    return;
+    }
+
+    server_.rc = sqlite3_bind_text(stmt, 1, username.c_str(),-1, SQLITE_STATIC);
+
+    int exists = 0;
+    if (sqlite3_step(stmt) == SQLITE_ROW) {
+        exists = sqlite3_column_int(stmt, 0);  
+    }
+
+    std::string mess;
+
+    if (!exists){
+        sql = "INSERT INTO USERS(username, password) VALUES (?, ?)";
+        server_.rc = sqlite3_prepare_v2(server_.database, sql.c_str(), -1, &stmt, nullptr);
+
+        if (server_.rc!= SQLITE_OK) {
+        std::cerr << "Błąd przygotowania zapytania: " << sqlite3_errmsg(server_.database) << std::endl;
+        return;
+        }
+
+        server_.rc = sqlite3_bind_text(stmt, 1, username.c_str(),-1, SQLITE_STATIC);
+        server_.rc = sqlite3_bind_text(stmt, 2, password.c_str(),-1, SQLITE_STATIC);
+        server_.rc = sqlite3_step(stmt);
+        if(server_.rc == SQLITE_DONE){
+            mess = "Succesfully registered";
+        }
+        else{
+            mess = "Error registering";
+        }
+    }
+
+    else{
+        mess = "User already exists";
+    }
+
+    send(clientFD, mess.c_str(), mess.size(), 0);
+}
+

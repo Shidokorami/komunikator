@@ -21,8 +21,12 @@ set(SOURCES
     
     source/Klient.cpp
     source/logic/LoginFrame.cpp
+    source/logic/MainFrame.cpp
+    source/logic/RegisterFrame.cpp
+    source/logic/CustomEvents.cpp
     source/logic/ClientLogic.cpp
     source/logic/Packers.cpp
+    
     
 )
 

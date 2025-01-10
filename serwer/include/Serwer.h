@@ -48,6 +48,7 @@ private:
         std::unordered_map<std::string, std::function<void(json, int)>> handlers;
         
         void handleLogin(json data, int clientFD);
+        void handleRegister(json data, int clientFD);
     };
 
     RequestHandler requestHandler;

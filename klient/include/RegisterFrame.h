@@ -1,15 +1,17 @@
 #pragma once
-#ifndef LOGINFRAME_H
-#define LOGINFRAME_H
+#ifndef REGISTERFRAME_H
+#define REGISTERFRAME_H
 #include <wx/wx.h>
 #include "ClientLogic.h"
 #include "CustomEvents.h"
 
 
-class LoginFrame : public wxFrame
+class MainFrame;
+
+class RegisterFrame : public wxFrame
 {
 public:
-    LoginFrame(const wxString& title, wxFrame* parent, ClientLogic* logic);
+    RegisterFrame(const wxString& title, wxFrame* parent, ClientLogic* logic);
 
 private:
     
@@ -19,9 +21,8 @@ private:
     wxStaticText* headlineText;
     wxStaticText* usernameText;
     wxStaticText* passwordText;
-    wxStaticText* registerText;
-    wxButton* loginButton;
     wxButton* registerButton;
+    wxButton* backButton;
     ClientLogic* clientLogic;
     wxFrame* mainFrame;
 
@@ -29,8 +30,8 @@ private:
     void setupSizers();
     void setupHandlers();
 
-    void onLoginButtonClicked(wxCommandEvent& evt);
     void onRegisterButtonClicked(wxCommandEvent& evt);
+    void onBackButtonClicked(wxCommandEvent& evt);
 
 };
 

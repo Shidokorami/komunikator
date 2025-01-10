@@ -97,10 +97,52 @@ CMakeFiles/Klient.dir/source/logic/LoginFrame.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/Klient.dir/source/logic/LoginFrame.cpp.s"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/shidokorami/studia/sem5/sk2/projekt/komunikator/klient/source/logic/LoginFrame.cpp -o CMakeFiles/Klient.dir/source/logic/LoginFrame.cpp.s
 
+CMakeFiles/Klient.dir/source/logic/MainFrame.cpp.o: CMakeFiles/Klient.dir/flags.make
+CMakeFiles/Klient.dir/source/logic/MainFrame.cpp.o: ../source/logic/MainFrame.cpp
+CMakeFiles/Klient.dir/source/logic/MainFrame.cpp.o: CMakeFiles/Klient.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/shidokorami/studia/sem5/sk2/projekt/komunikator/klient/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building CXX object CMakeFiles/Klient.dir/source/logic/MainFrame.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/Klient.dir/source/logic/MainFrame.cpp.o -MF CMakeFiles/Klient.dir/source/logic/MainFrame.cpp.o.d -o CMakeFiles/Klient.dir/source/logic/MainFrame.cpp.o -c /home/shidokorami/studia/sem5/sk2/projekt/komunikator/klient/source/logic/MainFrame.cpp
+
+CMakeFiles/Klient.dir/source/logic/MainFrame.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/Klient.dir/source/logic/MainFrame.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/shidokorami/studia/sem5/sk2/projekt/komunikator/klient/source/logic/MainFrame.cpp > CMakeFiles/Klient.dir/source/logic/MainFrame.cpp.i
+
+CMakeFiles/Klient.dir/source/logic/MainFrame.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/Klient.dir/source/logic/MainFrame.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/shidokorami/studia/sem5/sk2/projekt/komunikator/klient/source/logic/MainFrame.cpp -o CMakeFiles/Klient.dir/source/logic/MainFrame.cpp.s
+
+CMakeFiles/Klient.dir/source/logic/RegisterFrame.cpp.o: CMakeFiles/Klient.dir/flags.make
+CMakeFiles/Klient.dir/source/logic/RegisterFrame.cpp.o: ../source/logic/RegisterFrame.cpp
+CMakeFiles/Klient.dir/source/logic/RegisterFrame.cpp.o: CMakeFiles/Klient.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/shidokorami/studia/sem5/sk2/projekt/komunikator/klient/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Building CXX object CMakeFiles/Klient.dir/source/logic/RegisterFrame.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/Klient.dir/source/logic/RegisterFrame.cpp.o -MF CMakeFiles/Klient.dir/source/logic/RegisterFrame.cpp.o.d -o CMakeFiles/Klient.dir/source/logic/RegisterFrame.cpp.o -c /home/shidokorami/studia/sem5/sk2/projekt/komunikator/klient/source/logic/RegisterFrame.cpp
+
+CMakeFiles/Klient.dir/source/logic/RegisterFrame.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/Klient.dir/source/logic/RegisterFrame.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/shidokorami/studia/sem5/sk2/projekt/komunikator/klient/source/logic/RegisterFrame.cpp > CMakeFiles/Klient.dir/source/logic/RegisterFrame.cpp.i
+
+CMakeFiles/Klient.dir/source/logic/RegisterFrame.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/Klient.dir/source/logic/RegisterFrame.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/shidokorami/studia/sem5/sk2/projekt/komunikator/klient/source/logic/RegisterFrame.cpp -o CMakeFiles/Klient.dir/source/logic/RegisterFrame.cpp.s
+
+CMakeFiles/Klient.dir/source/logic/CustomEvents.cpp.o: CMakeFiles/Klient.dir/flags.make
+CMakeFiles/Klient.dir/source/logic/CustomEvents.cpp.o: ../source/logic/CustomEvents.cpp
+CMakeFiles/Klient.dir/source/logic/CustomEvents.cpp.o: CMakeFiles/Klient.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/shidokorami/studia/sem5/sk2/projekt/komunikator/klient/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Building CXX object CMakeFiles/Klient.dir/source/logic/CustomEvents.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/Klient.dir/source/logic/CustomEvents.cpp.o -MF CMakeFiles/Klient.dir/source/logic/CustomEvents.cpp.o.d -o CMakeFiles/Klient.dir/source/logic/CustomEvents.cpp.o -c /home/shidokorami/studia/sem5/sk2/projekt/komunikator/klient/source/logic/CustomEvents.cpp
+
+CMakeFiles/Klient.dir/source/logic/CustomEvents.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/Klient.dir/source/logic/CustomEvents.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/shidokorami/studia/sem5/sk2/projekt/komunikator/klient/source/logic/CustomEvents.cpp > CMakeFiles/Klient.dir/source/logic/CustomEvents.cpp.i
+
+CMakeFiles/Klient.dir/source/logic/CustomEvents.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/Klient.dir/source/logic/CustomEvents.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/shidokorami/studia/sem5/sk2/projekt/komunikator/klient/source/logic/CustomEvents.cpp -o CMakeFiles/Klient.dir/source/logic/CustomEvents.cpp.s
+
 CMakeFiles/Klient.dir/source/logic/ClientLogic.cpp.o: CMakeFiles/Klient.dir/flags.make
 CMakeFiles/Klient.dir/source/logic/ClientLogic.cpp.o: ../source/logic/ClientLogic.cpp
 CMakeFiles/Klient.dir/source/logic/ClientLogic.cpp.o: CMakeFiles/Klient.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/shidokorami/studia/sem5/sk2/projekt/komunikator/klient/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building CXX object CMakeFiles/Klient.dir/source/logic/ClientLogic.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/shidokorami/studia/sem5/sk2/projekt/komunikator/klient/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_6) "Building CXX object CMakeFiles/Klient.dir/source/logic/ClientLogic.cpp.o"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/Klient.dir/source/logic/ClientLogic.cpp.o -MF CMakeFiles/Klient.dir/source/logic/ClientLogic.cpp.o.d -o CMakeFiles/Klient.dir/source/logic/ClientLogic.cpp.o -c /home/shidokorami/studia/sem5/sk2/projekt/komunikator/klient/source/logic/ClientLogic.cpp
 
 CMakeFiles/Klient.dir/source/logic/ClientLogic.cpp.i: cmake_force
@@ -114,7 +156,7 @@ CMakeFiles/Klient.dir/source/logic/ClientLogic.cpp.s: cmake_force
 CMakeFiles/Klient.dir/source/logic/Packers.cpp.o: CMakeFiles/Klient.dir/flags.make
 CMakeFiles/Klient.dir/source/logic/Packers.cpp.o: ../source/logic/Packers.cpp
 CMakeFiles/Klient.dir/source/logic/Packers.cpp.o: CMakeFiles/Klient.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/shidokorami/studia/sem5/sk2/projekt/komunikator/klient/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Building CXX object CMakeFiles/Klient.dir/source/logic/Packers.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/shidokorami/studia/sem5/sk2/projekt/komunikator/klient/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_7) "Building CXX object CMakeFiles/Klient.dir/source/logic/Packers.cpp.o"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/Klient.dir/source/logic/Packers.cpp.o -MF CMakeFiles/Klient.dir/source/logic/Packers.cpp.o.d -o CMakeFiles/Klient.dir/source/logic/Packers.cpp.o -c /home/shidokorami/studia/sem5/sk2/projekt/komunikator/klient/source/logic/Packers.cpp
 
 CMakeFiles/Klient.dir/source/logic/Packers.cpp.i: cmake_force
@@ -129,6 +171,9 @@ CMakeFiles/Klient.dir/source/logic/Packers.cpp.s: cmake_force
 Klient_OBJECTS = \
 "CMakeFiles/Klient.dir/source/Klient.cpp.o" \
 "CMakeFiles/Klient.dir/source/logic/LoginFrame.cpp.o" \
+"CMakeFiles/Klient.dir/source/logic/MainFrame.cpp.o" \
+"CMakeFiles/Klient.dir/source/logic/RegisterFrame.cpp.o" \
+"CMakeFiles/Klient.dir/source/logic/CustomEvents.cpp.o" \
 "CMakeFiles/Klient.dir/source/logic/ClientLogic.cpp.o" \
 "CMakeFiles/Klient.dir/source/logic/Packers.cpp.o"
 
@@ -137,6 +182,9 @@ Klient_EXTERNAL_OBJECTS =
 
 bin/Klient: CMakeFiles/Klient.dir/source/Klient.cpp.o
 bin/Klient: CMakeFiles/Klient.dir/source/logic/LoginFrame.cpp.o
+bin/Klient: CMakeFiles/Klient.dir/source/logic/MainFrame.cpp.o
+bin/Klient: CMakeFiles/Klient.dir/source/logic/RegisterFrame.cpp.o
+bin/Klient: CMakeFiles/Klient.dir/source/logic/CustomEvents.cpp.o
 bin/Klient: CMakeFiles/Klient.dir/source/logic/ClientLogic.cpp.o
 bin/Klient: CMakeFiles/Klient.dir/source/logic/Packers.cpp.o
 bin/Klient: CMakeFiles/Klient.dir/build.make
@@ -150,7 +198,7 @@ bin/Klient: /usr/lib/x86_64-linux-gnu/libXext.so
 bin/Klient: /usr/lib/x86_64-linux-gnu/libXtst.so
 bin/Klient: /usr/lib/x86_64-linux-gnu/libxkbcommon.so
 bin/Klient: CMakeFiles/Klient.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/shidokorami/studia/sem5/sk2/projekt/komunikator/klient/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Linking CXX executable bin/Klient"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/shidokorami/studia/sem5/sk2/projekt/komunikator/klient/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_8) "Linking CXX executable bin/Klient"
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/Klient.dir/link.txt --verbose=$(VERBOSE)
 
 # Rule to build all files generated by this target.

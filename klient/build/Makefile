@@ -177,6 +177,30 @@ source/logic/ClientLogic.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Klient.dir/build.make CMakeFiles/Klient.dir/source/logic/ClientLogic.cpp.s
 .PHONY : source/logic/ClientLogic.cpp.s
 
+source/logic/CustomEvents.o: source/logic/CustomEvents.cpp.o
+.PHONY : source/logic/CustomEvents.o
+
+# target to build an object file
+source/logic/CustomEvents.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Klient.dir/build.make CMakeFiles/Klient.dir/source/logic/CustomEvents.cpp.o
+.PHONY : source/logic/CustomEvents.cpp.o
+
+source/logic/CustomEvents.i: source/logic/CustomEvents.cpp.i
+.PHONY : source/logic/CustomEvents.i
+
+# target to preprocess a source file
+source/logic/CustomEvents.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Klient.dir/build.make CMakeFiles/Klient.dir/source/logic/CustomEvents.cpp.i
+.PHONY : source/logic/CustomEvents.cpp.i
+
+source/logic/CustomEvents.s: source/logic/CustomEvents.cpp.s
+.PHONY : source/logic/CustomEvents.s
+
+# target to generate assembly for a file
+source/logic/CustomEvents.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Klient.dir/build.make CMakeFiles/Klient.dir/source/logic/CustomEvents.cpp.s
+.PHONY : source/logic/CustomEvents.cpp.s
+
 source/logic/LoginFrame.o: source/logic/LoginFrame.cpp.o
 .PHONY : source/logic/LoginFrame.o
 
@@ -200,6 +224,30 @@ source/logic/LoginFrame.s: source/logic/LoginFrame.cpp.s
 source/logic/LoginFrame.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Klient.dir/build.make CMakeFiles/Klient.dir/source/logic/LoginFrame.cpp.s
 .PHONY : source/logic/LoginFrame.cpp.s
+
+source/logic/MainFrame.o: source/logic/MainFrame.cpp.o
+.PHONY : source/logic/MainFrame.o
+
+# target to build an object file
+source/logic/MainFrame.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Klient.dir/build.make CMakeFiles/Klient.dir/source/logic/MainFrame.cpp.o
+.PHONY : source/logic/MainFrame.cpp.o
+
+source/logic/MainFrame.i: source/logic/MainFrame.cpp.i
+.PHONY : source/logic/MainFrame.i
+
+# target to preprocess a source file
+source/logic/MainFrame.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Klient.dir/build.make CMakeFiles/Klient.dir/source/logic/MainFrame.cpp.i
+.PHONY : source/logic/MainFrame.cpp.i
+
+source/logic/MainFrame.s: source/logic/MainFrame.cpp.s
+.PHONY : source/logic/MainFrame.s
+
+# target to generate assembly for a file
+source/logic/MainFrame.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Klient.dir/build.make CMakeFiles/Klient.dir/source/logic/MainFrame.cpp.s
+.PHONY : source/logic/MainFrame.cpp.s
 
 source/logic/Packers.o: source/logic/Packers.cpp.o
 .PHONY : source/logic/Packers.o
@@ -225,6 +273,30 @@ source/logic/Packers.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Klient.dir/build.make CMakeFiles/Klient.dir/source/logic/Packers.cpp.s
 .PHONY : source/logic/Packers.cpp.s
 
+source/logic/RegisterFrame.o: source/logic/RegisterFrame.cpp.o
+.PHONY : source/logic/RegisterFrame.o
+
+# target to build an object file
+source/logic/RegisterFrame.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Klient.dir/build.make CMakeFiles/Klient.dir/source/logic/RegisterFrame.cpp.o
+.PHONY : source/logic/RegisterFrame.cpp.o
+
+source/logic/RegisterFrame.i: source/logic/RegisterFrame.cpp.i
+.PHONY : source/logic/RegisterFrame.i
+
+# target to preprocess a source file
+source/logic/RegisterFrame.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Klient.dir/build.make CMakeFiles/Klient.dir/source/logic/RegisterFrame.cpp.i
+.PHONY : source/logic/RegisterFrame.cpp.i
+
+source/logic/RegisterFrame.s: source/logic/RegisterFrame.cpp.s
+.PHONY : source/logic/RegisterFrame.s
+
+# target to generate assembly for a file
+source/logic/RegisterFrame.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Klient.dir/build.make CMakeFiles/Klient.dir/source/logic/RegisterFrame.cpp.s
+.PHONY : source/logic/RegisterFrame.cpp.s
+
 # Help Target
 help:
 	@echo "The following are some of the valid targets for this Makefile:"
@@ -240,12 +312,21 @@ help:
 	@echo "... source/logic/ClientLogic.o"
 	@echo "... source/logic/ClientLogic.i"
 	@echo "... source/logic/ClientLogic.s"
+	@echo "... source/logic/CustomEvents.o"
+	@echo "... source/logic/CustomEvents.i"
+	@echo "... source/logic/CustomEvents.s"
 	@echo "... source/logic/LoginFrame.o"
 	@echo "... source/logic/LoginFrame.i"
 	@echo "... source/logic/LoginFrame.s"
+	@echo "... source/logic/MainFrame.o"
+	@echo "... source/logic/MainFrame.i"
+	@echo "... source/logic/MainFrame.s"
 	@echo "... source/logic/Packers.o"
 	@echo "... source/logic/Packers.i"
 	@echo "... source/logic/Packers.s"
+	@echo "... source/logic/RegisterFrame.o"
+	@echo "... source/logic/RegisterFrame.i"
+	@echo "... source/logic/RegisterFrame.s"
 .PHONY : help
 
 

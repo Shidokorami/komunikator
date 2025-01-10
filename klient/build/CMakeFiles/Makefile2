@@ -81,12 +81,12 @@ clean: CMakeFiles/Klient.dir/clean
 CMakeFiles/Klient.dir/all:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Klient.dir/build.make CMakeFiles/Klient.dir/depend
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Klient.dir/build.make CMakeFiles/Klient.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/shidokorami/studia/sem5/sk2/projekt/komunikator/klient/build/CMakeFiles --progress-num=1,2,3,4,5 "Built target Klient"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/shidokorami/studia/sem5/sk2/projekt/komunikator/klient/build/CMakeFiles --progress-num=1,2,3,4,5,6,7,8 "Built target Klient"
 .PHONY : CMakeFiles/Klient.dir/all
 
 # Build rule for subdir invocation for target.
 CMakeFiles/Klient.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/shidokorami/studia/sem5/sk2/projekt/komunikator/klient/build/CMakeFiles 5
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/shidokorami/studia/sem5/sk2/projekt/komunikator/klient/build/CMakeFiles 8
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 CMakeFiles/Klient.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/shidokorami/studia/sem5/sk2/projekt/komunikator/klient/build/CMakeFiles 0
 .PHONY : CMakeFiles/Klient.dir/rule

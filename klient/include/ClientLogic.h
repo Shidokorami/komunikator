@@ -1,3 +1,4 @@
+#pragma once
 #ifndef CLIENTLOGIC_H
 #define CLIENTLOGIC_H
 
@@ -19,6 +20,7 @@ public:
     //void Disconnect();
 
     void Login(std::string username, std::string password);
+    bool Register(std::string username, std::string password);
 
 private:
     int SocketFD;
