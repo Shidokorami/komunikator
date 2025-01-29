@@ -382,6 +382,7 @@ CMakeFiles/Serwer.dir/source/logic/Serwer.cpp.o
  /usr/include/nlohmann/ordered_map.hpp
  /usr/include/nlohmann/detail/macro_unscope.hpp
  /usr/include/nlohmann/thirdparty/hedley/hedley_undef.hpp
+ /home/shidokorami/studia/sem5/sk2/projekt/komunikator/serwer/include/PackersServer.h
 
 CMakeFiles/Serwer.dir/source/main.cpp.o
  /home/shidokorami/studia/sem5/sk2/projekt/komunikator/serwer/source/main.cpp

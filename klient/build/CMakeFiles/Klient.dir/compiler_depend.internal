@@ -539,6 +539,14 @@ CMakeFiles/Klient.dir/source/Klient.cpp.o
  /usr/local/include/wx-3.2/wx/mdi.h
  /usr/local/include/wx-3.2/wx/gtk/mdi.h
  /home/shidokorami/studia/sem5/sk2/projekt/komunikator/klient/include/MainFrame.h
+ /usr/local/include/wx-3.2/wx/splitter.h
+ /usr/local/include/wx-3.2/wx/generic/splitter.h
+ /usr/local/include/wx-3.2/wx/notebook.h
+ /usr/local/include/wx-3.2/wx/bookctrl.h
+ /usr/local/include/wx-3.2/wx/withimages.h
+ /usr/local/include/wx-3.2/wx/imaglist.h
+ /usr/local/include/wx-3.2/wx/generic/imaglist.h
+ /usr/local/include/wx-3.2/wx/gtk/notebook.h
  /home/shidokorami/studia/sem5/sk2/projekt/komunikator/klient/include/ClientLogic.h
  /usr/include/c++/11/cstring
  /usr/include/netinet/in.h
@@ -1210,6 +1218,14 @@ CMakeFiles/Klient.dir/source/logic/ClientLogic.cpp.o
  /usr/include/nlohmann/detail/macro_unscope.hpp
  /usr/include/nlohmann/thirdparty/hedley/hedley_undef.hpp
  /home/shidokorami/studia/sem5/sk2/projekt/komunikator/klient/include/MainFrame.h
+ /usr/local/include/wx-3.2/wx/splitter.h
+ /usr/local/include/wx-3.2/wx/generic/splitter.h
+ /usr/local/include/wx-3.2/wx/notebook.h
+ /usr/local/include/wx-3.2/wx/bookctrl.h
+ /usr/local/include/wx-3.2/wx/withimages.h
+ /usr/local/include/wx-3.2/wx/imaglist.h
+ /usr/local/include/wx-3.2/wx/generic/imaglist.h
+ /usr/local/include/wx-3.2/wx/gtk/notebook.h
  /home/shidokorami/studia/sem5/sk2/projekt/komunikator/klient/include/RegisterFrame.h
 
 CMakeFiles/Klient.dir/source/logic/CustomEvents.cpp.o
@@ -2646,6 +2662,14 @@ CMakeFiles/Klient.dir/source/logic/MainFrame.cpp.o
  /usr/local/include/wx-3.2/wx/filectrl.h
  /usr/local/include/wx-3.2/wx/mdi.h
  /usr/local/include/wx-3.2/wx/gtk/mdi.h
+ /usr/local/include/wx-3.2/wx/splitter.h
+ /usr/local/include/wx-3.2/wx/generic/splitter.h
+ /usr/local/include/wx-3.2/wx/notebook.h
+ /usr/local/include/wx-3.2/wx/bookctrl.h
+ /usr/local/include/wx-3.2/wx/withimages.h
+ /usr/local/include/wx-3.2/wx/imaglist.h
+ /usr/local/include/wx-3.2/wx/generic/imaglist.h
+ /usr/local/include/wx-3.2/wx/gtk/notebook.h
  /home/shidokorami/studia/sem5/sk2/projekt/komunikator/klient/include/ClientLogic.h
  /usr/include/c++/11/cstring
  /usr/include/netinet/in.h

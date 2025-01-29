@@ -15,6 +15,7 @@ find_package(SQLite3 REQUIRED)
 set(SOURCES
     source/main.cpp
     source/logic/Serwer.cpp
+    source/logic/PackersServer.cpp
 )
 
 set(RESOURCE_DIR "${CMAKE_SOURCE_DIR}/resource")

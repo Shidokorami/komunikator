@@ -8,6 +8,7 @@ set(CMAKE_DEPENDS_LANGUAGES
 
 # The set of dependency files which are needed:
 set(CMAKE_DEPENDS_DEPENDENCY_FILES
+  "/home/shidokorami/studia/sem5/sk2/projekt/komunikator/serwer/source/logic/PackersServer.cpp" "CMakeFiles/Serwer.dir/source/logic/PackersServer.cpp.o" "gcc" "CMakeFiles/Serwer.dir/source/logic/PackersServer.cpp.o.d"
   "/home/shidokorami/studia/sem5/sk2/projekt/komunikator/serwer/source/logic/Serwer.cpp" "CMakeFiles/Serwer.dir/source/logic/Serwer.cpp.o" "gcc" "CMakeFiles/Serwer.dir/source/logic/Serwer.cpp.o.d"
   "/home/shidokorami/studia/sem5/sk2/projekt/komunikator/serwer/source/main.cpp" "CMakeFiles/Serwer.dir/source/main.cpp.o" "gcc" "CMakeFiles/Serwer.dir/source/main.cpp.o.d"
   )

@@ -9,6 +9,5 @@ bool Klient::OnInit() {
    
     
     mainFrame->SetSize(800, 600);
-    mainFrame->Show();
     return true;
 }

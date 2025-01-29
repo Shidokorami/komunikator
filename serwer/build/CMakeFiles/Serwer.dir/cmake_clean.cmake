@@ -1,4 +1,6 @@
 file(REMOVE_RECURSE
+  "CMakeFiles/Serwer.dir/source/logic/PackersServer.cpp.o"
+  "CMakeFiles/Serwer.dir/source/logic/PackersServer.cpp.o.d"
   "CMakeFiles/Serwer.dir/source/logic/Serwer.cpp.o"
   "CMakeFiles/Serwer.dir/source/logic/Serwer.cpp.o.d"
   "CMakeFiles/Serwer.dir/source/main.cpp.o"

@@ -538,6 +538,14 @@ CMakeFiles/Klient.dir/source/Klient.cpp.o: ../source/Klient.cpp \
   /usr/local/include/wx-3.2/wx/mdi.h \
   /usr/local/include/wx-3.2/wx/gtk/mdi.h \
   ../include/MainFrame.h \
+  /usr/local/include/wx-3.2/wx/splitter.h \
+  /usr/local/include/wx-3.2/wx/generic/splitter.h \
+  /usr/local/include/wx-3.2/wx/notebook.h \
+  /usr/local/include/wx-3.2/wx/bookctrl.h \
+  /usr/local/include/wx-3.2/wx/withimages.h \
+  /usr/local/include/wx-3.2/wx/imaglist.h \
+  /usr/local/include/wx-3.2/wx/generic/imaglist.h \
+  /usr/local/include/wx-3.2/wx/gtk/notebook.h \
   ../include/ClientLogic.h \
   /usr/include/c++/11/cstring \
   /usr/include/netinet/in.h \
@@ -1208,6 +1216,14 @@ CMakeFiles/Klient.dir/source/logic/ClientLogic.cpp.o: ../source/logic/ClientLogi
   /usr/include/nlohmann/detail/macro_unscope.hpp \
   /usr/include/nlohmann/thirdparty/hedley/hedley_undef.hpp \
   ../include/MainFrame.h \
+  /usr/local/include/wx-3.2/wx/splitter.h \
+  /usr/local/include/wx-3.2/wx/generic/splitter.h \
+  /usr/local/include/wx-3.2/wx/notebook.h \
+  /usr/local/include/wx-3.2/wx/bookctrl.h \
+  /usr/local/include/wx-3.2/wx/withimages.h \
+  /usr/local/include/wx-3.2/wx/imaglist.h \
+  /usr/local/include/wx-3.2/wx/generic/imaglist.h \
+  /usr/local/include/wx-3.2/wx/gtk/notebook.h \
   ../include/RegisterFrame.h
 
 CMakeFiles/Klient.dir/source/logic/CustomEvents.cpp.o: ../source/logic/CustomEvents.cpp \
@@ -2641,6 +2657,14 @@ CMakeFiles/Klient.dir/source/logic/MainFrame.cpp.o: ../source/logic/MainFrame.cp
   /usr/local/include/wx-3.2/wx/filectrl.h \
   /usr/local/include/wx-3.2/wx/mdi.h \
   /usr/local/include/wx-3.2/wx/gtk/mdi.h \
+  /usr/local/include/wx-3.2/wx/splitter.h \
+  /usr/local/include/wx-3.2/wx/generic/splitter.h \
+  /usr/local/include/wx-3.2/wx/notebook.h \
+  /usr/local/include/wx-3.2/wx/bookctrl.h \
+  /usr/local/include/wx-3.2/wx/withimages.h \
+  /usr/local/include/wx-3.2/wx/imaglist.h \
+  /usr/local/include/wx-3.2/wx/generic/imaglist.h \
+  /usr/local/include/wx-3.2/wx/gtk/notebook.h \
   ../include/ClientLogic.h \
   /usr/include/c++/11/cstring \
   /usr/include/netinet/in.h \
@@ -3706,6 +3730,18 @@ CMakeFiles/Klient.dir/source/logic/RegisterFrame.cpp.o: ../source/logic/Register
 
 /usr/include/x86_64-linux-gnu/bits/sockaddr.h:
 
+/usr/include/x86_64-linux-gnu/sys/socket.h:
+
+/usr/include/netinet/in.h:
+
+/usr/include/c++/11/cstring:
+
+../include/ClientLogic.h:
+
+/usr/local/include/wx-3.2/wx/generic/imaglist.h:
+
+/usr/local/include/wx-3.2/wx/imaglist.h:
+
 /usr/include/string.h:
 
 /usr/include/c++/11/bits/nested_exception.h:
@@ -3865,8 +3901,6 @@ CMakeFiles/Klient.dir/source/logic/RegisterFrame.cpp.o: ../source/logic/Register
 /usr/include/c++/11/bits/stl_function.h:
 
 /usr/include/c++/11/bits/memoryfwd.h:
-
-/usr/include/x86_64-linux-gnu/sys/socket.h:
 
 /usr/include/c++/11/bits/algorithmfwd.h:
 
@@ -4050,6 +4084,8 @@ CMakeFiles/Klient.dir/source/logic/RegisterFrame.cpp.o: ../source/logic/Register
 
 /usr/local/include/wx-3.2/wx/string.h:
 
+/usr/local/include/wx-3.2/wx/withimages.h:
+
 /usr/include/x86_64-linux-gnu/bits/locale.h:
 
 /usr/include/x86_64-linux-gnu/bits/posix1_lim.h:
@@ -4071,8 +4107,6 @@ CMakeFiles/Klient.dir/source/logic/RegisterFrame.cpp.o: ../source/logic/Register
 /usr/include/c++/11/bits/exception_ptr.h:
 
 /usr/include/math.h:
-
-/usr/include/c++/11/cstring:
 
 /usr/local/include/wx-3.2/wx/rtti.h:
 
@@ -4438,8 +4472,6 @@ CMakeFiles/Klient.dir/source/logic/RegisterFrame.cpp.o: ../source/logic/Register
 
 /usr/include/x86_64-linux-gnu/bits/mathcalls.h:
 
-../include/ClientLogic.h:
-
 /usr/include/c++/11/ext/string_conversions.h:
 
 /usr/include/x86_64-linux-gnu/bits/iscanonical.h:
@@ -4483,8 +4515,6 @@ CMakeFiles/Klient.dir/source/logic/RegisterFrame.cpp.o: ../source/logic/Register
 /usr/local/include/wx-3.2/wx/gdiobj.h:
 
 /usr/local/include/wx-3.2/wx/utils.h:
-
-/usr/include/x86_64-linux-gnu/bits/dirent.h:
 
 /usr/include/nlohmann/detail/json_pointer.hpp:
 
@@ -4630,6 +4660,8 @@ CMakeFiles/Klient.dir/source/logic/RegisterFrame.cpp.o: ../source/logic/Register
 
 /usr/local/include/wx-3.2/wx/stream.h:
 
+/usr/local/include/wx-3.2/wx/bookctrl.h:
+
 /usr/local/include/wx-3.2/wx/gtk/menuitem.h:
 
 /usr/include/x86_64-linux-gnu/bits/libc-header-start.h:
@@ -4703,6 +4735,8 @@ CMakeFiles/Klient.dir/source/logic/RegisterFrame.cpp.o: ../source/logic/Register
 /usr/local/include/wx-3.2/wx/imagtga.h:
 
 /usr/local/include/wx-3.2/wx/imagtiff.h:
+
+/usr/local/include/wx-3.2/wx/gtk/notebook.h:
 
 /usr/local/include/wx-3.2/wx/compiler.h:
 
@@ -4782,6 +4816,10 @@ CMakeFiles/Klient.dir/source/logic/RegisterFrame.cpp.o: ../source/logic/Register
 
 /usr/local/include/wx-3.2/wx/gtk/menu.h:
 
+/usr/include/x86_64-linux-gnu/bits/dirent.h:
+
+/usr/local/include/wx-3.2/wx/notebook.h:
+
 /usr/local/include/wx-3.2/wx/gtk/dialog.h:
 
 /usr/local/include/wx-3.2/wx/checkeddelete.h:
@@ -4815,6 +4853,8 @@ CMakeFiles/Klient.dir/source/logic/RegisterFrame.cpp.o: ../source/logic/Register
 /usr/include/x86_64-linux-gnu/bits/types/__FILE.h:
 
 /usr/local/include/wx-3.2/wx/scrolbar.h:
+
+/usr/local/include/wx-3.2/wx/splitter.h:
 
 /usr/local/include/wx-3.2/wx/stattext.h:
 
@@ -4872,4 +4912,4 @@ CMakeFiles/Klient.dir/source/logic/RegisterFrame.cpp.o: ../source/logic/Register
 
 /usr/local/include/wx-3.2/wx/gtk/mdi.h:
 
-/usr/include/netinet/in.h:
+/usr/local/include/wx-3.2/wx/generic/splitter.h:

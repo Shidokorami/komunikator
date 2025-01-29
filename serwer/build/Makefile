@@ -129,6 +129,30 @@ Serwer/fast:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Serwer.dir/build.make CMakeFiles/Serwer.dir/build
 .PHONY : Serwer/fast
 
+source/logic/PackersServer.o: source/logic/PackersServer.cpp.o
+.PHONY : source/logic/PackersServer.o
+
+# target to build an object file
+source/logic/PackersServer.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Serwer.dir/build.make CMakeFiles/Serwer.dir/source/logic/PackersServer.cpp.o
+.PHONY : source/logic/PackersServer.cpp.o
+
+source/logic/PackersServer.i: source/logic/PackersServer.cpp.i
+.PHONY : source/logic/PackersServer.i
+
+# target to preprocess a source file
+source/logic/PackersServer.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Serwer.dir/build.make CMakeFiles/Serwer.dir/source/logic/PackersServer.cpp.i
+.PHONY : source/logic/PackersServer.cpp.i
+
+source/logic/PackersServer.s: source/logic/PackersServer.cpp.s
+.PHONY : source/logic/PackersServer.s
+
+# target to generate assembly for a file
+source/logic/PackersServer.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Serwer.dir/build.make CMakeFiles/Serwer.dir/source/logic/PackersServer.cpp.s
+.PHONY : source/logic/PackersServer.cpp.s
+
 source/logic/Serwer.o: source/logic/Serwer.cpp.o
 .PHONY : source/logic/Serwer.o
 
@@ -186,6 +210,9 @@ help:
 	@echo "... edit_cache"
 	@echo "... rebuild_cache"
 	@echo "... Serwer"
+	@echo "... source/logic/PackersServer.o"
+	@echo "... source/logic/PackersServer.i"
+	@echo "... source/logic/PackersServer.s"
 	@echo "... source/logic/Serwer.o"
 	@echo "... source/logic/Serwer.i"
 	@echo "... source/logic/Serwer.s"

@@ -28,7 +28,7 @@ bool ClientLogic::connectToServer(){
 
 }
 
-void ClientLogic::Login(std::string username, std::string password){
+bool ClientLogic::Login(std::string username, std::string password){
     std::string credentials = packLoginCredentials(username, password);
 
     send(SocketFD, credentials.c_str(), credentials.size(), 0);
@@ -37,10 +37,16 @@ void ClientLogic::Login(std::string username, std::string password){
     ssize_t bytesRecv = recv(SocketFD, buff, sizeof buff, 0);
     buff[bytesRecv] = '\0';
 
-    std::string mess(buff);
-    std::cout << mess << std::endl;
+    json request = json::parse(buff);
+    std::string result = request["request_response"];
+    std::cout << result << std::endl;
 
-
+    if(result == "success"){
+        return true;
+    }
+    else{
+        return false;
+    }
 
 }
 

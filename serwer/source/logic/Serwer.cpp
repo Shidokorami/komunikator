@@ -1,4 +1,5 @@
 #include "../../include/Serwer.h"
+#include "PackersServer.h"
 #define MAX_LISTEN 100
 
 Serwer::Serwer() : requestHandler(*this){
@@ -175,12 +176,12 @@ void Serwer::RequestHandler::handleLogin(json data, int clientFD){
 
     std::string mess;
     if (exists == 1) {
-        mess = "Zalogowano";
+        mess = packLoginSuccess(true);
         
     } 
     else 
     {
-        mess = "Zle dane";
+        mess = packLoginSuccess(false);
     }
 
     send(clientFD, mess.c_str(), mess.size(), 0);

@@ -91,7 +91,12 @@ void LoginFrame::onLoginButtonClicked(wxCommandEvent& evt){
     std::cout << "Username: " << sentUsername << std::endl;
     std::cout << "Password: " << sentPassword << std::endl; 
 
-    clientLogic->Login(sentUsername, sentPassword);
+    bool isLoginSuccess = clientLogic->Login(sentUsername, sentPassword);
+    std::cout << "przed" << std::endl;
+    if(isLoginSuccess){
+        std::cout << "SUCCESS" << std::endl;
+        sendDynamicEvent(mainFrame, LOGIN_SUCCESS);
+    }
 
 }
 

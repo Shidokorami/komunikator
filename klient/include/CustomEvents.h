@@ -6,6 +6,7 @@
 
 wxDECLARE_EVENT(REGISTER_REQUESTED, wxCommandEvent);
 wxDECLARE_EVENT(BACK_TO_LOGIN_REQUEST, wxCommandEvent);
+wxDECLARE_EVENT(LOGIN_SUCCESS, wxCommandEvent);
 
 void sendDynamicEvent(wxEvtHandler* target, wxEventType eventType);
 

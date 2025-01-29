@@ -19,7 +19,7 @@ public:
     //std::string SendRequest(const std::string& request);
     //void Disconnect();
 
-    void Login(std::string username, std::string password);
+    bool Login(std::string username, std::string password);
     bool Register(std::string username, std::string password);
 
 private:
