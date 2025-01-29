@@ -380,7 +380,8 @@ CMakeFiles/Serwer.dir/source/logic/Serwer.cpp.o: ../source/logic/Serwer.cpp \
   /usr/include/nlohmann/detail/conversions/to_chars.hpp \
   /usr/include/nlohmann/ordered_map.hpp \
   /usr/include/nlohmann/detail/macro_unscope.hpp \
-  /usr/include/nlohmann/thirdparty/hedley/hedley_undef.hpp
+  /usr/include/nlohmann/thirdparty/hedley/hedley_undef.hpp \
+  ../include/PackersServer.h
 
 CMakeFiles/Serwer.dir/source/main.cpp.o: ../source/main.cpp \
   /usr/include/stdc-predef.h \
@@ -1385,6 +1386,8 @@ CMakeFiles/Serwer.dir/source/main.cpp.o: ../source/main.cpp \
 /usr/include/c++/11/bits/charconv.h:
 
 /usr/include/sqlite3.h:
+
+../include/PackersServer.h:
 
 /usr/include/c++/11/bits/basic_string.tcc:
 

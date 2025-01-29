@@ -1,5 +1,6 @@
 #include "../../include/LoginFrame.h"
 #include "../../include/Packers.h"
+#include "MainFrame.h"
 
 ClientLogic::ClientLogic(const std::string& serverAddress, int port)
     : serverAddress(serverAddress), port(port), SocketFD(-1) {}
@@ -27,8 +28,30 @@ bool ClientLogic::connectToServer(){
 
 }
 
-void ClientLogic::Login(std::string username, std::string password){
+bool ClientLogic::Login(std::string username, std::string password){
     std::string credentials = packLoginCredentials(username, password);
+
+    send(SocketFD, credentials.c_str(), credentials.size(), 0);
+    char buff[256];
+    
+    ssize_t bytesRecv = recv(SocketFD, buff, sizeof buff, 0);
+    buff[bytesRecv] = '\0';
+
+    json request = json::parse(buff);
+    std::string result = request["request_response"];
+    std::cout << result << std::endl;
+
+    if(result == "success"){
+        return true;
+    }
+    else{
+        return false;
+    }
+
+}
+
+bool ClientLogic::Register(std::string username, std::string password){
+    std::string credentials = packRegisterCredentials(username, password);
 
     send(SocketFD, credentials.c_str(), credentials.size(), 0);
     char buff[256];
@@ -39,7 +62,6 @@ void ClientLogic::Login(std::string username, std::string password){
     std::string mess(buff);
     std::cout << mess << std::endl;
 
-
-
+    return true;
 }
 

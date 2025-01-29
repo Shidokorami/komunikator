@@ -1,1 +1,1 @@
-/usr/bin/c++ CMakeFiles/Serwer.dir/source/main.cpp.o CMakeFiles/Serwer.dir/source/logic/Serwer.cpp.o -o bin/Serwer  /usr/lib/x86_64-linux-gnu/libsqlite3.so 
+/usr/bin/c++ CMakeFiles/Serwer.dir/source/main.cpp.o CMakeFiles/Serwer.dir/source/logic/Serwer.cpp.o CMakeFiles/Serwer.dir/source/logic/PackersServer.cpp.o -o bin/Serwer  /usr/lib/x86_64-linux-gnu/libsqlite3.so 

@@ -10,8 +10,11 @@ set(CMAKE_DEPENDS_LANGUAGES
 set(CMAKE_DEPENDS_DEPENDENCY_FILES
   "/home/shidokorami/studia/sem5/sk2/projekt/komunikator/klient/source/Klient.cpp" "CMakeFiles/Klient.dir/source/Klient.cpp.o" "gcc" "CMakeFiles/Klient.dir/source/Klient.cpp.o.d"
   "/home/shidokorami/studia/sem5/sk2/projekt/komunikator/klient/source/logic/ClientLogic.cpp" "CMakeFiles/Klient.dir/source/logic/ClientLogic.cpp.o" "gcc" "CMakeFiles/Klient.dir/source/logic/ClientLogic.cpp.o.d"
+  "/home/shidokorami/studia/sem5/sk2/projekt/komunikator/klient/source/logic/CustomEvents.cpp" "CMakeFiles/Klient.dir/source/logic/CustomEvents.cpp.o" "gcc" "CMakeFiles/Klient.dir/source/logic/CustomEvents.cpp.o.d"
   "/home/shidokorami/studia/sem5/sk2/projekt/komunikator/klient/source/logic/LoginFrame.cpp" "CMakeFiles/Klient.dir/source/logic/LoginFrame.cpp.o" "gcc" "CMakeFiles/Klient.dir/source/logic/LoginFrame.cpp.o.d"
+  "/home/shidokorami/studia/sem5/sk2/projekt/komunikator/klient/source/logic/MainFrame.cpp" "CMakeFiles/Klient.dir/source/logic/MainFrame.cpp.o" "gcc" "CMakeFiles/Klient.dir/source/logic/MainFrame.cpp.o.d"
   "/home/shidokorami/studia/sem5/sk2/projekt/komunikator/klient/source/logic/Packers.cpp" "CMakeFiles/Klient.dir/source/logic/Packers.cpp.o" "gcc" "CMakeFiles/Klient.dir/source/logic/Packers.cpp.o.d"
+  "/home/shidokorami/studia/sem5/sk2/projekt/komunikator/klient/source/logic/RegisterFrame.cpp" "CMakeFiles/Klient.dir/source/logic/RegisterFrame.cpp.o" "gcc" "CMakeFiles/Klient.dir/source/logic/RegisterFrame.cpp.o.d"
   )
 
 # Targets to which this target links.

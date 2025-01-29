@@ -1,13 +1,13 @@
 #include "../include/Klient.h"
-#include "../include/LoginFrame.h"
+#include "../include/MainFrame.h"
 #include <wx/wx.h>
 
 wxIMPLEMENT_APP(Klient);
 
 bool Klient::OnInit() {
-    LoginFrame* mainFrame = new LoginFrame("Klient");
-    mainFrame ->SetClientSize(800, 600);
-    mainFrame ->Center();
-    mainFrame ->Show();
+    MainFrame* mainFrame = new MainFrame("Klient");
+   
+    
+    mainFrame->SetSize(800, 600);
     return true;
 }
