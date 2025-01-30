@@ -46,9 +46,14 @@ private:
     private:
         Serwer& server_;
         std::unordered_map<std::string, std::function<void(json, int)>> handlers;
+        std::unordered_map<int, int> connections;
+        std::unordered_map<int, int> connectedClientsID;
         
         void handleLogin(json data, int clientFD);
         void handleRegister(json data, int clientFD);
+        void handleReadGroupchatRequest(json data, int clientFD);
+        void handleReadChatsRequest(json data, int clientFD);
+        void handleNewMessage(json data, int clientFD);
     };
 
     RequestHandler requestHandler;

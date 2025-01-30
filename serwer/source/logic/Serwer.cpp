@@ -133,6 +133,9 @@ Serwer::RequestHandler::RequestHandler(Serwer& server)
 : server_(server){
     handlers["login"] = [this](json data, int clientFD) { this->handleLogin(data, clientFD);};
     handlers["register"] = [this](json data, int clientFD) { this->handleRegister(data, clientFD);};
+    handlers["read_groupchat_list"] = [this](json data, int clientFD) { this->handleReadGroupchatRequest(data, clientFD);};
+    handlers["read_messages"] = [this](json data, int clientFD) { this->handleReadChatsRequest(data, clientFD);};
+    handlers["incoming_message"] = [this](json data, int clientFD) { this->handleNewMessage(data, clientFD);};
 }
 
 void Serwer::RequestHandler::handle(std::string requestString, int clientFD){
@@ -158,7 +161,7 @@ void Serwer::RequestHandler::handleLogin(json data, int clientFD){
     std::cout << "US: " << username << ", PASS: " << password << std::endl;
 
     sqlite3_stmt* stmt;
-    std::string sql = "SELECT EXISTS(SELECT 1 FROM USERS WHERE USERNAME = ? AND PASSWORD = ?)";
+    std::string sql = "SELECT ID FROM USERS WHERE USERNAME = ? AND PASSWORD = ?";
     server_.rc = sqlite3_prepare_v2(server_.database, sql.c_str(), -1, &stmt, nullptr);
 
     if (server_.rc!= SQLITE_OK) {
@@ -169,14 +172,16 @@ void Serwer::RequestHandler::handleLogin(json data, int clientFD){
     server_.rc = sqlite3_bind_text(stmt, 1, username.c_str(),-1, SQLITE_STATIC);
     server_.rc = sqlite3_bind_text(stmt, 2, password.c_str(),-1, SQLITE_STATIC);
 
-    int exists = 0;
+    int user_id = -1;
     if (sqlite3_step(stmt) == SQLITE_ROW) {
-        exists = sqlite3_column_int(stmt, 0);  
+        user_id = sqlite3_column_int(stmt, 0);
     }
 
     std::string mess;
-    if (exists == 1) {
+    if (user_id != -1) {
         mess = packLoginSuccess(true);
+        connections[clientFD] = user_id;
+        connectedClientsID[user_id] = clientFD;
         
     } 
     else 
@@ -239,4 +244,129 @@ void Serwer::RequestHandler::handleRegister(json data, int clientFD){
 
     send(clientFD, mess.c_str(), mess.size(), 0);
 }
+
+void Serwer::RequestHandler::handleReadGroupchatRequest(json data, int clientFD){
+    sqlite3_stmt* stmt;
+    int clientID = connections[clientFD];
+    std::string sql = "SELECT g.chat_name, g.chat_id FROM GROUPCHATS g JOIN USERS_IN_GROUPCHAT ug on g.chat_id = ug.chat_id WHERE ug.user_id = ?";
+    server_.rc = sqlite3_prepare_v2(server_.database, sql.c_str(), -1, &stmt, nullptr);
+
+    if (server_.rc!= SQLITE_OK) {
+    std::cerr << "Błąd przygotowania zapytania: " << sqlite3_errmsg(server_.database) << std::endl;
+    return;
+    }
+    server_.rc = sqlite3_bind_int(stmt, 1, clientID);
+
+    json sendData;
+    sendData["request_type"] = "groupchats";
+    sendData["data"] = json::array();
+
+    while ((server_.rc = sqlite3_step(stmt)) == SQLITE_ROW) {
+        json chat;
+        const unsigned char*  chat_name = sqlite3_column_text(stmt, 0);
+        int chat_id = sqlite3_column_int(stmt, 1);
+        std::string chatNameStr(reinterpret_cast<const char*>(chat_name));
+        std::cout << "ID: " << chat_id << " NAME: " << chatNameStr <<  std::endl;
+        chat["chat_id"] = chat_id;
+        chat["chat_name"] = chatNameStr;
+        sendData["data"].push_back(chat);
+    }
+    std::cout << "SEND JSON:" << sendData << std::endl;
+    send(clientFD, sendData.dump().c_str(), sendData.dump().size(), 0);    
+}
+
+void Serwer::RequestHandler::handleReadChatsRequest(json data, int clientFD){
+    int chat_id = data.value("chat_id", -1);
+    sqlite3_stmt* stmt;
+    std::string sql = "SELECT m.MESSAGE_ID, u.USERNAME, m.CONTENT FROM MESSAGES m JOIN USERS u ON m.SENDER_ID = u.ID WHERE m.CHAT_ID = ?;";
+    server_.rc = sqlite3_prepare_v2(server_.database, sql.c_str(), -1, &stmt, nullptr);
+
+    server_.rc = sqlite3_bind_int(stmt, 1, chat_id);
+
+    json sendData;
+    sendData["request_type"] = "message_for_groupchat";
+    sendData["data"] = json::array();
+    while ((server_.rc = sqlite3_step(stmt)) == SQLITE_ROW) {
+        json mess;
+
+        int mess_id = sqlite3_column_int(stmt, 0);
+        const unsigned char*  sender_name = sqlite3_column_text(stmt, 1);
+        const unsigned char*  content = sqlite3_column_text(stmt, 2);
+
+        std::string senderStr(reinterpret_cast<const char*>(sender_name));
+        std::string contentStr(reinterpret_cast<const char*>(content));
+        
+        mess["message_id"] = mess_id;
+        mess["sender"] = senderStr;
+        mess["content"] = contentStr;
+
+        sendData["data"].push_back(mess);
+    }
+
+    std::string finalData = sendData.dump();
+    send(clientFD, finalData.c_str(), finalData.size(), 0);
+
+}
+
+void Serwer::RequestHandler::handleNewMessage(json data, int clientFD){
+    int chat_id = data.value("chat_id", -1);
+    std::string content = data.value("content", "");
+    int sender_id = connections[clientFD];
+
+    sqlite3_stmt* stmt;
+    std::string sql = "INSERT INTO MESSAGES(chat_id, sender_id, content) VALUES (?,?,?);";
+    server_.rc = sqlite3_prepare_v2(server_.database, sql.c_str(), -1, &stmt, nullptr);
+
+    server_.rc = sqlite3_bind_int(stmt, 1, chat_id);
+    server_.rc = sqlite3_bind_int(stmt, 2, sender_id);
+    server_.rc = sqlite3_bind_text(stmt, 3, content.c_str(), -1, SQLITE_STATIC );
+
+    server_.rc = sqlite3_step(stmt);
+
+    if (server_.rc != SQLITE_DONE) {
+    std::cerr << "Błąd insertu rekordu: " << sqlite3_errmsg(server_.database) << std::endl;
+    }
+    
+    long long messageId = sqlite3_last_insert_rowid(server_.database);
+    sqlite3_finalize(stmt);
+
+    std::string sqlGetName = "SELECT USERNAME FROM USERS WHERE ID = ?;";
+    server_.rc = sqlite3_prepare_v2(server_.database, sqlGetName.c_str(), -1, &stmt, nullptr);
+    server_.rc = sqlite3_bind_int(stmt, 1, sender_id);
+
+    std::string sender_name;
+    
+    if (sqlite3_step(stmt) == SQLITE_ROW) {
+        const unsigned char* name = sqlite3_column_text(stmt, 0);
+        sender_name = std::string(reinterpret_cast<const char*>(name));
+    } 
+    sqlite3_finalize(stmt);
+
+    std::string sqlSearch = "SELECT u.ID FROM USERS u JOIN USERS_IN_GROUPCHAT ug ON u.ID = ug.USER_ID WHERE CHAT_ID = ?;";
+    server_.rc = sqlite3_prepare_v2(server_.database, sqlSearch.c_str(), -1, &stmt, nullptr);
+    server_.rc = sqlite3_bind_int(stmt, 1, chat_id);
+    while ((server_.rc = sqlite3_step(stmt)) == SQLITE_ROW) {
+        int user_id = sqlite3_column_int(stmt, 0);
+        auto it = connectedClientsID.find(user_id);
+
+        if(it != connectedClientsID.end()){
+            int userFD = connectedClientsID[user_id];
+            std::string message = packMessage(messageId, chat_id ,sender_name, content);
+            std::cout << "JSON: " << message << std::endl;
+
+            send(userFD, message.c_str(), message.size(), 0);
+        }
+        else{
+            continue;
+        }
+    }
+    
+
+
+    
+
+
+
+}
+
 
