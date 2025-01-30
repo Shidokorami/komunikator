@@ -190,6 +190,7 @@ bin/Klient: CMakeFiles/Klient.dir/source/logic/Packers.cpp.o
 bin/Klient: CMakeFiles/Klient.dir/build.make
 bin/Klient: /usr/local/lib/libwx_baseu_net-3.2.so.0.3.0
 bin/Klient: /usr/local/lib/libwx_gtk3u_core-3.2.so.0.3.0
+bin/Klient: /usr/lib/x86_64-linux-gnu/libsqlite3.so
 bin/Klient: /usr/local/lib/libwx_baseu-3.2.so.0.3.0
 bin/Klient: /usr/lib/x86_64-linux-gnu/libSM.so
 bin/Klient: /usr/lib/x86_64-linux-gnu/libICE.so

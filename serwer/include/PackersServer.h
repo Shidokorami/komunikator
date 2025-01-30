@@ -7,5 +7,6 @@
 using json = nlohmann::json;
 
 std::string packLoginSuccess(bool isSuccess);
+std::string packMessage(int mess_id, int chat_id, std::string sender_name, std::string content );
 
 #endif
