@@ -52,3 +52,42 @@ std::string packMessage(int chat_id, std::string content){
     }};
     return data.dump(4);
 }
+
+std::string packCreateGroup(std::string name){
+    json data = {
+        {"request_type", "create_group"},
+        {"data", {
+            {"chat_name", name}
+        }}
+    };
+
+    return data.dump(4);
+}
+
+std::string packReadFriendList(){
+     json data = {
+        {"request_type", "read_friendlist"},
+        {"data", "none"}};
+    return data.dump(4);
+}
+
+std::string packAddFriend(std::string name){
+    json data = {
+        {"request_type", "add_friend"},
+        {"data", {
+            {"name", name}
+        }}
+    };
+    return data.dump(4);
+}
+
+std::string packAddToChat(std::string name, int chat_id){
+    json data = {
+        {"request_type", "add_to_chat"},
+        {"data", {
+            {"name", name},
+            {"chat_id", chat_id}
+        }}
+    };
+    return data.dump(4);
+}

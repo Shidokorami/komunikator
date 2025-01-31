@@ -67,7 +67,6 @@ bool ClientLogic::Register(std::string username, std::string password){
     buff[bytesRecv] = '\0';
 
     std::string mess(buff);
-    std::cout << mess << std::endl;
 
     return true;
 }
@@ -132,18 +131,17 @@ void ClientLogic::getMessages(){
         
         char buffer[MAX_BUFF_SIZE];
         std::string request = packReadMessages(chat_id);
-        std::cout << request << std::endl;
+
         send(SocketFD, request.c_str(), request.size(), 0);
         
         int bytesRecv = recv(SocketFD, buffer, MAX_BUFF_SIZE - 1, 0);
         buffer[bytesRecv] = '\0';  
         std::string serverResponse(buffer);
-
-
+        std::cout << serverResponse << std::endl;
         json messages = json::parse(serverResponse);
 
-
         for (const auto& mess: messages["data"]) {
+            
             int rcInsert;
             int mess_id = mess.value("message_id", -1);
             std::string sender = mess.value("sender", "");
@@ -184,9 +182,71 @@ std::string ClientLogic::messageListener(){
     char buff[MAX_BUFF_SIZE];
     int bytesRecv = recv(SocketFD, buff, MAX_BUFF_SIZE -1, 0);
     buff[bytesRecv] = '\0';
+    std::cout << "Bufor: " << buff << std::endl;
     std::string mess(buff);
     return mess;
+    
 }
+
+void ClientLogic::createNewChat(std::string name){
+    std::string message = packCreateGroup(name);
+    send(SocketFD, message.c_str(), message.size(), 0);
+}
+
+void ClientLogic::getFriendList(){
+    std::string request = packReadFriendList();
+     char buffer[MAX_BUFF_SIZE];
+
+    send(SocketFD, request.c_str(), request.size(), 0);
+
+
+    int bytesRecv = recv(SocketFD, buffer, MAX_BUFF_SIZE -1, 0);
+     if (bytesRecv <= 0) {
+        std::cerr << "Błąd przy odbieraniu danych lub połączenie zamknięte!" << std::endl;
+        return;
+    }
+
+    buffer[bytesRecv] = '\0';
+    std::string dataString(buffer);
+
+    json data = json::parse(dataString);
+
+    for (const auto& friend_user : data["data"]) {
+        std::string name = friend_user.value("username", "");
+        sendFriendToDB(name);
+
+    }
+}
+
+void ClientLogic::sendFriendToDB(std::string name){
+    sqlite3_stmt* stmt;
+    std::string sql = "INSERT INTO FRIENDS(USERNAME) VALUES(?);";
+    int rc = sqlite3_prepare_v2(database, sql.c_str(), -1, &stmt, nullptr);
+    if (rc != SQLITE_OK) {
+        std::cerr << "Błąd przygotowania zapytania: " << sqlite3_errmsg(database) << std::endl;
+        return;
+    }
+
+    sqlite3_bind_text(stmt, 1, name.c_str(), -1, SQLITE_STATIC);
+    if (sqlite3_step(stmt) != SQLITE_DONE) {
+        std::cerr << "Błąd przy zapisie znajomych: " << sqlite3_errmsg(database) << std::endl;
+    } else {
+        std::cout << "znajomy zapisany do bazy!\n";
+    }
+    sqlite3_finalize(stmt);
+}
+
+void ClientLogic::addFriend(std::string name){
+    std::string message = packAddFriend(name);
+    send(SocketFD, message.c_str(), message.size(), 0);
+}
+
+void ClientLogic::addToChat(int chat_id, std::string name){
+    std::string mess = packAddToChat(name, chat_id);
+    send(SocketFD, mess.c_str(), mess.size(), 0);
+}
+
+
 
 
 
