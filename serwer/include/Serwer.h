@@ -22,7 +22,7 @@
 #include <functional>
 
 using json = nlohmann::json;
-#define MAX_BUFFER_SIZE 256
+#define MAX_BUFFER_SIZE 1024
 
 class Serwer{
 public:
@@ -53,7 +53,13 @@ private:
         void handleRegister(json data, int clientFD);
         void handleReadGroupchatRequest(json data, int clientFD);
         void handleReadChatsRequest(json data, int clientFD);
+        void handleReadFriendlistRequest(json data, int clientFD);
         void handleNewMessage(json data, int clientFD);
+        void handleNewChatRequest(json data, int clientFD);
+        void handleAddFriend(json data, int clientFD);
+        void handleAddToChat(json data, int clientFD);
+        void addToChat(int chat_id, std::string name, int clientFD);
+        void addFriend(int sender_id, int friend_id, std::string friend_name, int clientFD);
     };
 
     RequestHandler requestHandler;

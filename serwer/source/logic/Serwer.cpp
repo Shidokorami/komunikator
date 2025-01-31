@@ -40,7 +40,7 @@ void Serwer::setupServer(){
     memset(&sa, 0, sizeof sa);
 
     sa.sin_family = AF_INET;
-    sa.sin_port = htons(1100);
+    sa.sin_port = htons(5000);
     sa.sin_addr.s_addr = htonl(INADDR_ANY);
     fcntl(serverFD, F_SETFL, fcntl(serverFD, F_GETFL) | O_NONBLOCK);
 
@@ -136,6 +136,10 @@ Serwer::RequestHandler::RequestHandler(Serwer& server)
     handlers["read_groupchat_list"] = [this](json data, int clientFD) { this->handleReadGroupchatRequest(data, clientFD);};
     handlers["read_messages"] = [this](json data, int clientFD) { this->handleReadChatsRequest(data, clientFD);};
     handlers["incoming_message"] = [this](json data, int clientFD) { this->handleNewMessage(data, clientFD);};
+    handlers["create_group"] = [this](json data, int clientFD) { this->handleNewChatRequest(data, clientFD);};
+    handlers["read_friendlist"] = [this](json data, int clientFD) { this->handleReadFriendlistRequest(data, clientFD);};
+    handlers["add_friend"] = [this](json data, int clientFD) { this->handleAddFriend(data, clientFD);};
+    handlers["add_to_chat"] = [this](json data, int clientFD) { this->handleAddToChat(data, clientFD);};
 }
 
 void Serwer::RequestHandler::handle(std::string requestString, int clientFD){
@@ -271,7 +275,6 @@ void Serwer::RequestHandler::handleReadGroupchatRequest(json data, int clientFD)
         chat["chat_name"] = chatNameStr;
         sendData["data"].push_back(chat);
     }
-    std::cout << "SEND JSON:" << sendData << std::endl;
     send(clientFD, sendData.dump().c_str(), sendData.dump().size(), 0);    
 }
 
@@ -360,13 +363,180 @@ void Serwer::RequestHandler::handleNewMessage(json data, int clientFD){
             continue;
         }
     }
+}
+
+void Serwer::RequestHandler::handleNewChatRequest(json data, int clientFD){
+    std::string chat_name = data.value("chat_name", "");
+    int owner_id = connections[clientFD];
+
+    sqlite3_stmt* stmt;
+    std::string sql = "INSERT INTO GROUPCHATS(chat_name, owner_id) VALUES (?,?);";
+    server_.rc = sqlite3_prepare_v2(server_.database, sql.c_str(), -1, &stmt, nullptr);
+
+    server_.rc = sqlite3_bind_text(stmt, 1, chat_name.c_str(), -1, SQLITE_STATIC );
+    server_.rc = sqlite3_bind_int(stmt, 2, owner_id);
+    server_.rc = sqlite3_step(stmt);
+
+    if (server_.rc != SQLITE_DONE) {
+    std::cerr << "Błąd insertu rekordu: " << sqlite3_errmsg(server_.database) << std::endl;
+    }
+    long long chat_id = sqlite3_last_insert_rowid(server_.database);
+    sqlite3_finalize(stmt);
+
+    
+    sql = "INSERT INTO USERS_IN_GROUPCHAT(chat_id, user_id) VALUES (?,?);";
+    server_.rc = sqlite3_prepare_v2(server_.database, sql.c_str(), -1, &stmt, nullptr);
+
+    server_.rc = sqlite3_bind_int(stmt, 1, chat_id);
+    server_.rc = sqlite3_bind_int(stmt, 2, owner_id);
+
+    server_.rc = sqlite3_step(stmt);
+
+    if (server_.rc != SQLITE_DONE) {
+    std::cerr << "Błąd insertu rekordu: " << sqlite3_errmsg(server_.database) << std::endl;
+    }
+    sqlite3_finalize(stmt);
+
     
 
-
-    
-
+    addToChat(chat_id, chat_name, clientFD);
 
 
 }
 
+void Serwer::RequestHandler::addToChat(int chat_id, std::string name, int clientFD){
+    std::string mess = packAddToChat(chat_id, name);
+    int bytesSent = send(clientFD, mess.c_str(), mess.size(), 0);
+}
+
+void Serwer::RequestHandler::handleReadFriendlistRequest(json data, int clientFD){
+    int clientID = connections[clientFD];
+
+    sqlite3_stmt* stmt;
+    std::string sql = "SELECT USERNAME FROM USERS WHERE ID IN (SELECT USER1_ID FROM FRIENDLIST WHERE USER2_ID = ? UNION SELECT USER2_ID FROM FRIENDLIST WHERE USER1_ID = ?);";
+    server_.rc = sqlite3_prepare_v2(server_.database, sql.c_str(), -1, &stmt, nullptr);
+
+    server_.rc = sqlite3_bind_int(stmt, 1, clientID);
+    server_.rc = sqlite3_bind_int(stmt, 2, clientID);
+
+    
+    json sendData;
+    sendData["request_type"] = "friendlist";
+    sendData["data"] = json::array();
+
+    while ((server_.rc = sqlite3_step(stmt)) == SQLITE_ROW) {
+        json friendData;
+        const unsigned char*  friend_name = sqlite3_column_text(stmt, 0);
+        std::string friendNameStr(reinterpret_cast<const char*>(friend_name));
+
+        friendData["username"] = friendNameStr;
+        sendData["data"].push_back(friendData);
+    }
+    send(clientFD, sendData.dump().c_str(), sendData.dump().size(), 0);    
+
+}
+
+void Serwer::RequestHandler::handleAddFriend(json data, int clientFD){
+    int clientID = connections[clientFD];
+    std::string name = data.value("name", "");
+
+    sqlite3_stmt* stmt;
+    std::string sql = "SELECT ID FROM USERS WHERE USERNAME = ?;";
+    server_.rc = sqlite3_prepare_v2(server_.database, sql.c_str(), -1, &stmt, nullptr);
+
+    server_.rc = sqlite3_bind_text(stmt, 1, name.c_str(), -1, SQLITE_STATIC);
+
+    server_.rc = sqlite3_step(stmt);
+    int friendID = sqlite3_column_int(stmt, 0);
+    sqlite3_finalize(stmt);
+
+    sql = "INSERT INTO FRIENDLIST(USER1_ID, USER2_ID) VALUES(?,?);";
+    server_.rc = sqlite3_prepare_v2(server_.database, sql.c_str(), -1, &stmt, nullptr);
+
+    server_.rc = sqlite3_bind_int(stmt, 1, clientID);
+    server_.rc = sqlite3_bind_int(stmt, 2, friendID);
+
+    server_.rc = sqlite3_step(stmt);
+    if (server_.rc != SQLITE_DONE) {
+    std::cerr << "Błąd insertu rekordu: " << sqlite3_errmsg(server_.database) << std::endl;
+    }
+    sqlite3_finalize(stmt);
+
+    addFriend(clientID, friendID, name, clientFD);
+
+
+}
+
+void Serwer::RequestHandler::addFriend(int sender_id, int friend_id, std::string friend_name, int clientFD){
+    std::string mess1 = packAddFriend(friend_name);
+    send(clientFD, mess1.c_str(), mess1.size(), 0);
+
+    auto it = connectedClientsID.find(friend_id);
+
+    if(it != connectedClientsID.end()){
+        int friendFD = connectedClientsID[friend_id];
+
+        sqlite3_stmt* stmt;
+        std::string sql = "SELECT USERNAME FROM USERS WHERE ID = ?;";
+        server_.rc = sqlite3_prepare_v2(server_.database, sql.c_str(), -1, &stmt, nullptr);
+
+        server_.rc = sqlite3_bind_int(stmt, 1, sender_id);
+
+        server_.rc = sqlite3_step(stmt);
+        const unsigned char*  sender_name = sqlite3_column_text(stmt, 0);
+        std::string senderNameStr(reinterpret_cast<const char*>(sender_name));
+
+        std::string mess2 = packAddFriend(senderNameStr);
+        sqlite3_finalize(stmt);
+
+        send(friendFD, mess2.c_str(), mess2.size(), 0);
+        
+    }
+    
+}
+
+void Serwer::RequestHandler::handleAddToChat(json data, int clientFD){
+    int chat_id = data.value("chat_id", -1);
+    std::string name = data.value("name", "");
+
+    sqlite3_stmt* stmt;
+    std::string sql = "SELECT ID FROM USERS WHERE USERNAME = ?;";
+    server_.rc = sqlite3_prepare_v2(server_.database, sql.c_str(), -1, &stmt, nullptr);
+
+    server_.rc = sqlite3_bind_text(stmt, 1, name.c_str(), -1, SQLITE_STATIC);
+
+    server_.rc = sqlite3_step(stmt);
+    int user_id = sqlite3_column_int(stmt, 0);
+    sqlite3_finalize(stmt);
+
+    sql = "INSERT INTO USERS_IN_GROUPCHAT(chat_id, user_id) VALUES (?,?);";
+
+    server_.rc = sqlite3_prepare_v2(server_.database, sql.c_str(), -1, &stmt, nullptr);
+
+    server_.rc = sqlite3_bind_int(stmt, 1, chat_id);
+    server_.rc = sqlite3_bind_int(stmt, 2, user_id);
+    server_.rc = sqlite3_step(stmt);
+    sqlite3_finalize(stmt);
+
+    auto it = connectedClientsID.find(user_id);
+
+    if(it != connectedClientsID.end()){
+        int userFD = connectedClientsID[user_id];
+        sql = "SELECT CHAT_NAME FROM GROUPCHATS WHERE CHAT_ID = ?";
+        server_.rc = sqlite3_prepare_v2(server_.database, sql.c_str(), -1, &stmt, nullptr);
+
+        server_.rc = sqlite3_bind_int(stmt, 1, chat_id);
+        server_.rc = sqlite3_step(stmt);
+
+        const unsigned char*  chat_name = sqlite3_column_text(stmt, 0);
+        std::string chatNameStr(reinterpret_cast<const char*>(chat_name));
+
+        std::string mess = packAddToChat(chat_id, chatNameStr);
+
+        send(userFD, mess.c_str(), mess.size(), 0);
+
+    }
+
+
+}
 

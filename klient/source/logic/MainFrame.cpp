@@ -9,8 +9,9 @@ MainFrame::MainFrame(const wxString& title): wxFrame(nullptr, wxID_ANY, title, w
     std::cerr << "Błąd otwierania bazy danych: " << sqlite3_errmsg(database) << std::endl;
 
     }
+    clearDB();
     bindEventRequests();
-    clientLogic = new ClientLogic("127.0.0.1", 1100);
+    clientLogic = new ClientLogic("127.0.0.1", 5000);
     setupFrames();
 }
 
@@ -45,6 +46,7 @@ void MainFrame::onLogInSucces(wxCommandEvent& evt){
     loginFrame->Destroy();
     clientLogic->getGroupchatsList();
     clientLogic->getMessages();
+    clientLogic->getFriendList();
     setupMainFrame();
     
 
@@ -72,6 +74,7 @@ void MainFrame::setupMainFrame(){
     pthread_detach(thread);
     Show();
 }
+
 void  MainFrame::setupChatWindows(){
     for (auto it =  groupChatsMap.begin(); it !=  groupChatsMap.end(); ++it) {
         wxScrolledWindow* scrlWindow = new wxScrolledWindow(rightPanel, wxID_ANY, wxDefaultPosition, wxSize(500,300));
@@ -89,6 +92,31 @@ void  MainFrame::setupChatWindows(){
     };
 }
 
+void MainFrame::clearDB(){
+    sqlite3_stmt* stmt;
+    std::string sql = "DELETE FROM GROUPCHATS;";
+
+    rc = sqlite3_prepare_v2(database, sql.c_str(), -1, &stmt, nullptr);
+    sqlite3_step(stmt); 
+    sqlite3_finalize(stmt);
+
+    sql = "DELETE FROM MESSAGES;";
+
+    rc = sqlite3_prepare_v2(database, sql.c_str(), -1, &stmt, nullptr);
+    sqlite3_step(stmt); 
+    sqlite3_finalize(stmt);
+
+    sql = "DELETE FROM FRIENDS;";
+
+    rc = sqlite3_prepare_v2(database, sql.c_str(), -1, &stmt, nullptr);
+    sqlite3_step(stmt); 
+    sqlite3_finalize(stmt);
+
+
+
+    
+}
+
 void MainFrame::createControls(){
 
     splitter = new wxSplitterWindow(this, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxSP_BORDER | wxSP_LIVE_UPDATE);
@@ -99,16 +127,29 @@ void MainFrame::createControls(){
     groupPanel = new wxPanel(listPanel, wxID_ANY);
     friendsPanel = new wxPanel(listPanel, wxID_ANY);
 
+    createGroupButton = new wxButton(groupPanel, wxID_ANY, "Create groupchat", wxPoint(170, 0));
+    createGroupButton->Bind(wxEVT_BUTTON, &MainFrame::createChatButtonClicked, this);
+
+    addFriendButton = new wxButton(friendsPanel, wxID_ANY, "Add friend", wxPoint(170, 0));
+    addFriendButton->Bind(wxEVT_BUTTON, &MainFrame::addFriendButtonClicked, this);
+
+    addToChat = new wxButton(friendsPanel, wxID_ANY, "Add to chat", wxPoint(170,50));
+    addToChat->Bind(wxEVT_BUTTON, &MainFrame::addToChatButtonClicked, this);
+
+    listPanel->AddPage(groupPanel, "Chats");
+    listPanel->AddPage(friendsPanel, "Friends");
+
     rightPanel = new wxPanel(splitter, wxID_ANY, wxDefaultPosition);
     rightSizer = new wxBoxSizer(wxVERTICAL);
     rightPanel->SetSizer(rightSizer);
-    wxArrayString choices;
-    readGroupchatList(choices);
+    readGroupchatList();
+    readFriendList();
     
     setupChatWindows();
     
     controla = new wxTextCtrl(rightPanel, wxID_ANY, "", wxDefaultPosition, wxSize(300, 80), wxTE_MULTILINE | wxTE_PROCESS_ENTER);
     rightSizer->Add(controla, 1, wxEXPAND | wxALL, 5);
+
     controla->Bind(wxEVT_TEXT_ENTER, &MainFrame::textFieldEnter, this);
     auto firstChat = *chatWindowsMap.begin();
     currChatID = firstChat.first;
@@ -116,14 +157,12 @@ void MainFrame::createControls(){
     firstChatWindow->Show();
     rightSizer->Layout();
     
-   
-    listBox = new wxListBox(groupPanel, wxID_ANY, wxPoint(200, 200), wxSize(100, -1), choices);
+    
+    listBox = new wxListBox(groupPanel, wxID_ANY, wxPoint(0, 0), wxSize(150, 400), chatChoices);
     listBox->Bind(wxEVT_LISTBOX, &MainFrame::onChatListboxChange, this);
 
-
-    listPanel->AddPage(groupPanel, "Chats");
-    listPanel->AddPage(friendsPanel, "Friends");
-
+    friendList = new wxListBox(friendsPanel, wxID_ANY, wxPoint(0, 0), wxSize(150, 400), friendChoices);
+    friendList->Bind(wxEVT_LISTBOX, &MainFrame::onFriendListChange, this);
 
     splitter->SetMinimumPaneSize(200);
     splitter->SplitVertically(listPanel, rightPanel);
@@ -133,7 +172,7 @@ void MainFrame::createControls(){
 }
 
 
-void MainFrame::readGroupchatList(wxArrayString& choices){
+void MainFrame::readGroupchatList(){
     sqlite3_stmt* stmt;
     std::string sql = "SELECT NAME, CHAT_ID FROM GROUPCHATS ORDER BY NAME";
     int rc = sqlite3_prepare_v2(database, sql.c_str(), -1, &stmt, nullptr);
@@ -148,7 +187,7 @@ void MainFrame::readGroupchatList(wxArrayString& choices){
         int chat_id = sqlite3_column_int(stmt, 1);
         wxString chatNameStr(reinterpret_cast<const char*>(chat_name));
         groupChatsMap.insert({chat_name, chat_id});
-        choices.Add(chatNameStr);
+        chatChoices.Add(chatNameStr);
     }
 
     sqlite3_finalize(stmt);
@@ -205,13 +244,18 @@ void* MainFrame::messageListen(void* arg){
 }
 
 void MainFrame::handleRequest(std::string message){
-    std::cout <<"PRZED PARSE: " << message << std::endl;
+    
     json mess = json::parse(message);
     std::string request_type = mess["request"];
     json data = mess["data"];
-    std::cout <<"DATA : " << data << std::endl;
     if (request_type =="incoming_message"){
         handleIncomingMessage(data);
+    }
+    else if (request_type == "added_to_chat"){
+        handleAddedToChat(data);
+    }
+    else if (request_type == "added_as_friend"){
+        handleAddedToFriends(data);
     }
 
 }
@@ -248,4 +292,168 @@ void MainFrame::handleIncomingMessage(json data){
     wxStaticText* text = new wxStaticText(window,wxID_ANY, sender_name + ": " + content );
     sizer->Add(text);
     sizer->Layout();
+}
+
+void MainFrame::createChatButtonClicked(wxCommandEvent& event){
+    createGroupDialog = new wxDialog(this, wxID_ANY, "Create groupchat", wxDefaultPosition, wxSize(300, 200));
+    createGroupSizer = new wxBoxSizer(wxVERTICAL);
+
+    createGroupTextCtrl = new wxTextCtrl( createGroupDialog, wxID_ANY, "", wxDefaultPosition, wxSize(290, 30), wxTE_PROCESS_ENTER);
+    createGroupSizer->Add(createGroupTextCtrl);
+
+    createGroupSizerButton = new wxBoxSizer(wxHORIZONTAL);
+    
+    createGroupAcceptButton = new wxButton( createGroupDialog, wxID_ANY, "Create");
+    createGroupSizerButton->Add(createGroupAcceptButton, 0, wxALL | wxCENTER, 10);
+    createGroupAcceptButton->Bind(wxEVT_BUTTON, &MainFrame::createNewChat, this);
+
+    createGroupSizer->Add(createGroupSizerButton, 0, wxALL | wxCENTER, 10);
+
+    createGroupDialog->SetSizerAndFit(createGroupSizer);
+
+    createGroupDialog->ShowModal();
+}
+
+void MainFrame::createNewChat(wxCommandEvent& event){
+    std::string name = createGroupTextCtrl->GetValue().Trim().ToStdString();
+    createGroupTextCtrl->Clear();
+    clientLogic->createNewChat(name);
+
+    createGroupDialog->EndModal(wxID_OK);
+}
+
+void MainFrame::handleAddedToChat(json data){
+    int chat_id = data.value("chat_id", -1);
+    std::string name = data.value("name", "");
+
+    sqlite3_stmt* stmt;
+    std::string sql = "INSERT INTO GROUPCHATS(chat_id, name) VALUES (?,?);";
+
+    int rc = sqlite3_prepare_v2(database, sql.c_str(), -1, &stmt, nullptr);
+    if (rc != SQLITE_OK) {
+        std::cerr << "Błąd przygotowania zapytania: " << sqlite3_errmsg(database) << std::endl;
+        return;
+    }
+
+    rc = sqlite3_bind_int(stmt, 1, chat_id);
+    rc = sqlite3_bind_text(stmt, 2, name.c_str(), -1, SQLITE_STATIC);
+    rc = sqlite3_step(stmt);
+    if (rc != SQLITE_DONE) {
+        std::cerr << "Błąd insertu rekordu: " << sqlite3_errmsg(database) << std::endl;
+    }
+    sqlite3_finalize(stmt);
+
+    groupChatsMap.insert({name, chat_id});
+    wxString wxstring(name.c_str(), wxConvUTF8);
+    listBox->Append(wxstring);
+
+     wxScrolledWindow* scrlWindow = new wxScrolledWindow(rightPanel, wxID_ANY, wxDefaultPosition, wxSize(500,300));
+    scrlWindow->Hide();
+    scrlWindow->SetBackgroundColour(wxColor(0, 128, 128));
+    scrlWindow->SetScrollRate(5, 5);
+    
+    rightSizer->Detach(controla);
+    rightSizer->Add(scrlWindow, 2, wxEXPAND | wxALL, 5);
+    rightSizer->Add(controla, 1, wxEXPAND | wxALL, 5);
+    wxBoxSizer* chatSizer = new wxBoxSizer(wxVERTICAL);
+
+    scrlWindow->SetSizer(chatSizer);
+    scrlWindow->Layout();
+    rightSizer->Layout();
+    rightPanel->Layout();
+    chatWindowsMap.insert({chat_id, scrlWindow});
+    chatSizerMap.insert({chat_id, chatSizer});
+
+    
+}
+
+void MainFrame::readFriendList(){
+    sqlite3_stmt* stmt;
+    std::string sql = "SELECT USERNAME FROM FRIENDS ORDER BY USERNAME";
+    int rc = sqlite3_prepare_v2(database, sql.c_str(), -1, &stmt, nullptr);
+    if (rc != SQLITE_OK) {
+        std::cerr << "Błąd przygotowania zapytania: " << sqlite3_errmsg(database) << std::endl;
+        return;
+    }
+
+    while ((rc = sqlite3_step(stmt)) == SQLITE_ROW) {
+
+        const unsigned char*  friend_name = sqlite3_column_text(stmt, 0);
+        wxString friendNameStr(reinterpret_cast<const char*>(friend_name));
+        friendChoices.Add(friendNameStr);
+    }
+
+    sqlite3_finalize(stmt);
+
+}
+
+void MainFrame::addFriendButtonClicked(wxCommandEvent& event){
+    addFriendDialog = new wxDialog(this, wxID_ANY, "Add friend", wxDefaultPosition, wxSize(300, 200));
+    addFriendSizer = new wxBoxSizer(wxVERTICAL);
+
+    addFriendTextCtrl = new wxTextCtrl( addFriendDialog, wxID_ANY, "", wxDefaultPosition, wxSize(290, 30), wxTE_PROCESS_ENTER);
+    addFriendSizer->Add(addFriendTextCtrl);
+
+    addFriendSizerButton = new wxBoxSizer(wxHORIZONTAL);
+    
+    addFriendAcceptButton = new wxButton( addFriendDialog, wxID_ANY, "Create");
+    addFriendSizerButton->Add(addFriendAcceptButton, 0, wxALL | wxCENTER, 10);
+    addFriendAcceptButton->Bind(wxEVT_BUTTON, &MainFrame::addFriend, this);
+
+    addFriendSizer->Add(addFriendSizerButton, 0, wxALL | wxCENTER, 10);
+
+    addFriendDialog->SetSizerAndFit(addFriendSizer);
+
+    addFriendDialog->ShowModal();
+}
+
+void MainFrame::addFriend(wxCommandEvent& event){
+    std::cout<< "W addFriend" << std::endl;
+    std::string name = addFriendTextCtrl->GetValue().Trim().ToStdString();
+    addFriendTextCtrl->Clear();
+    std::cout<< "Przed logic" << std::endl;
+    clientLogic->addFriend(name);
+    std::cout<< "Po logic" << std::endl;
+    addFriendDialog->EndModal(wxID_OK);
+}
+
+void MainFrame::handleAddedToFriends(json data){
+    std::cout << "W handle added" << std::endl;
+    std::string name = data.value("name", "");
+
+    sqlite3_stmt* stmt;
+    std::string sql = "INSERT INTO FRIENDS(USERNAME) VALUES (?);";
+
+    int rc = sqlite3_prepare_v2(database, sql.c_str(), -1, &stmt, nullptr);
+    if (rc != SQLITE_OK) {
+        std::cerr << "Błąd przygotowania zapytania: " << sqlite3_errmsg(database) << std::endl;
+        return;
+    }
+
+    rc = sqlite3_bind_text(stmt, 1, name.c_str(), -1, SQLITE_STATIC);
+    rc = sqlite3_step(stmt);
+    if (rc != SQLITE_DONE) {
+        std::cerr << "Błąd insertu rekordu: " << sqlite3_errmsg(database) << std::endl;
+    }
+    sqlite3_finalize(stmt);
+
+    wxString wxstring(name.c_str(), wxConvUTF8);
+
+    friendList->Append(wxstring);
+
+
+}
+
+void MainFrame::onFriendListChange(wxCommandEvent& evt){
+    int selectedIndex = friendList->GetSelection();
+    wxString wybrany = friendList->GetString(selectedIndex);
+    currFriendName = wybrany.ToStdString();
+}
+
+void MainFrame::addToChatButtonClicked(wxCommandEvent& event){
+    int chat_id = currChatID;
+    std::string name = currFriendName;
+    clientLogic->addToChat(chat_id, name);
+    
+
 }
