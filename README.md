@@ -1,6 +1,9 @@
 # komunikator
 
-#Instrukcja uruchomienia
+# Opis
+Projekt komunikatora klient-serwer realizowany na zajęciach sieci komputerowych
+
+# Instrukcja uruchomienia
 
 Wymagane biblioteki:
 + nlohmann/json
