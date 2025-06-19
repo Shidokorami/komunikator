@@ -1,30 +1,31 @@
-# komunikator
+# Communicator
 
-# Opis
-Projekt komunikatora klient-serwer realizowany na zajęciach sieci komputerowych
+# Client-Server Messenger Project developed during computer networks classes
 
-# Instrukcja uruchomienia
+## Launch Instructions
 
-Wymagane biblioteki:
-+ nlohmann/json
-+ wxWidgets (conajmniej 3.2.4) - dla klienta, pobrane z: https://www.wxwidgets.org/downloads/
-+ sqlite3
-+ inne biblioteki od których zależą powyższe 
+**Required libraries:**
++ `nlohmann/json`
++ `wxWidgets` (at least version 3.2.4) – for the client, available at: https://www.wxwidgets.org/downloads/
++ `sqlite3`
++ other libraries that the above depend on
 
-Uruchamianie po pobraniu:
+**Launching after downloading:**
 
-Klient:
-+ klient/build/
-+ usunąć CMakeCashe.txt
-+ cmake ..
-+ make
-+ ./bin/Klient
+### Client:
++ `client/build/`
++ delete `CMakeCache.txt`
++ `cmake ..`
++ `make`
++ `./bin/Client`
 
-Serwer:
-+ serwer/build/
-+ usunąć CMakeCashe.txt
-+ cmake ..
-+ make
-+ ./bin/Serwer
+### Server:
++ `server/build/`
++ delete `CMakeCache.txt`
++ `cmake ..`
++ `make`
++ `./bin/Server`
 
-Bazy danych dostepne w build/resource/resource
+**Databases are available in** `build/resource/resource`
+
+
